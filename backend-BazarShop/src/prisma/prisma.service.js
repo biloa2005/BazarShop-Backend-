@@ -13,11 +13,13 @@ import { PrismaClient } from '../generated/prisma/client.js';
 let PrismaService = class PrismaService extends PrismaClient {
     constructor() {
         const adapter = new PrismaMariaDb({
-            host: process.env.DATABASE_HOST ?? 'mysql',
-            port: Number(process.env.DATABASE_PORT ?? 3306),
-            user: process.env.MYSQL_USER,
-            password: process.env.MYSQL_PASSWORD,
-            database: process.env.MYSQL_DATABASE,
+            host: process.env.DATABASE_HOST,
+  port: Number(process.env.DATABASE_PORT),
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  connectionLimit: 10,
+  allowPublicKeyRetrieval: true,
         });
         super({ adapter });
     }
