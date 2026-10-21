@@ -146,7 +146,7 @@ export class AuthService {
       message: 'Connexion réussie.',
       access_token: accessToken,
       token_type: 'Bearer',
-      expires_in: 900,
+      expires_in: "15 min",
       utilisateur: {
         id: utilisateur.id_utilisateur,
         nom: utilisateur.nom,
