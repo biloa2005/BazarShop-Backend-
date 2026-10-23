@@ -1,6 +1,6 @@
-import { IsString,MaxLength,IsNotEmpty,isInt,Min,isArray,Type,IsOptional,IsEnum } from "class-validator";
+import { IsString,MaxLength,IsNotEmpty,IsInt,Min,IsArray,IsOptional,IsEnum } from "class-validator";
 import { TypeAnnonce } from "../generated/prisma/enums.js";
-
+import {Type} from 'class-transformer'
 export class CreerAnnonceDto{
 @IsString()
 @IsNotEmpty()
@@ -17,9 +17,9 @@ localisation:string;
 @IsEnum(TypeAnnonce)
 type?:TypeAnnonce;
 @IsOptional()
-@isArray()
+@IsArray()
 @Type(()=>Number)
-@isInt({each:true})
+@IsInt({each:true})
 @Min(1,{each:true})
 categories?:number[];
 }
