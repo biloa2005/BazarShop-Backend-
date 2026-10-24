@@ -6,16 +6,16 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service.js';
 
 import {
   StatutAnnonce,
   TypeAnnonce,
-} from '../generated/prisma/client';
+} from '../generated/prisma/client.js';
 
-import { CreerAnnonceDto } from './dto/creer-annonce.dto.js';
-import { ModifierAnnonceDto } from './dto/modifier-annonce.dto';
-import { FiltrerAnnonceDto } from './dto/filtrer-annonce.dto';
+import { CreerAnnonceDto } from './creer-annonces.dto.js';
+import { ModifierAnnonceDto } from './modifier-annonces.dto.js';
+import { FiltrerAnnonceDto } from './filtrer-annonce.dto.js';
 
 @Injectable()
 export class AnnoncesService {
