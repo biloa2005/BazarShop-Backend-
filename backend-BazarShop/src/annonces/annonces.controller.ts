@@ -21,6 +21,10 @@ import { ModifierAnnonceDto } from './modifier-annonces.dto.js';
 import { FiltrerAnnonceDto } from './filtrer-annonce.dto.js';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { MAX_PHOTOS, optionsUploadPhotos } from './annonces-upload.config.js';
+
 
 interface RequeteAuthentifiee extends Request {
   user: {
@@ -59,16 +63,16 @@ export class AnnoncesController {
 
   // POST /annonces
   // Seul un utilisateur connecté peut créer une annonce.
+ 
   @Post()
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FilesInterceptor('photos', MAX_PHOTOS, optionsUploadPhotos))
   creer(
     @Body() dto: CreerAnnonceDto,
     @Req() req: RequeteAuthentifiee,
+    @UploadedFiles() photos: Express.Multer.File[] = [],
   ) {
-    return this.annoncesService.creer(
-      req.user.id,
-      dto,
-    );
+    return this.annoncesService.creer(req.user.id, dto, photos);
   }
 
   // PATCH /annonces/:id

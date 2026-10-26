@@ -5,6 +5,10 @@ import {
   ForbiddenException,
   BadRequestException,
 } from '@nestjs/common';
+import { unlink } from 'node:fs/promises';
+import { join } from 'node:path';
+import { DOSSIER_PHOTOS, URL_PHOTOS } from './annonces-upload.config.js';
+
 
 import { PrismaService } from '../prisma/prisma.service.js';
 
@@ -52,46 +56,69 @@ export class AnnoncesService {
   }
 
   // 1. Créer une annonce.
+  
+  // Supprime des fichiers du disque sans jamais faire échouer la requête.
+  private async supprimerFichiers(noms: string[]) {
+    await Promise.allSettled(
+      noms.map((nom) => unlink(join(DOSSIER_PHOTOS, nom))),
+    );
+  }
+
   async creer(
     idUtilisateur: string,
     dto: CreerAnnonceDto,
+    photos: Express.Multer.File[] = [],
   ) {
-    await this.verifierCategories(dto.categories);
+    const fichiers = photos.map((p) => p.filename);
 
-    const { categories, ...donneesAnnonce } = dto;
+    try {
+      await this.verifierCategories(dto.categories);
 
-    return this.prisma.annonce.create({
-      data: {
-        titre: donneesAnnonce.titre.trim(),
-        description: donneesAnnonce.description.trim(),
-        localisation: donneesAnnonce.localisation.trim(),
-        prix: donneesAnnonce.prix,
-        type: donneesAnnonce.type ?? TypeAnnonce.VENTE,
+      const { categories, ...donneesAnnonce } = dto;
 
-        // Le propriétaire vient du JWT vérifié.
-        id_utilisateur: idUtilisateur,
+      return await this.prisma.annonce.create({
+        data: {
+          titre: donneesAnnonce.titre.trim(),
+          description: donneesAnnonce.description.trim(),
+          localisation: donneesAnnonce.localisation.trim(),
+          prix: donneesAnnonce.prix,
+          type: donneesAnnonce.type ?? TypeAnnonce.VENTE,
+          id_utilisateur: idUtilisateur,
 
-        // Statut ACTIVE défini par défaut dans Prisma.
-        ...(categories?.length
-          ? {
-              categories: {
-                create: categories.map((id) => ({
-                  categorie: {
-                    connect: { id_categorie: id },
-                  },
-                })),
-              },
-            }
-          : {}),
-      },
-      include: {
-        categories: {
-          include: {
-            categorie: true,
-          },
+          ...(categories?.length
+            ? {
+                categories: {
+                  create: categories.map((id) => ({
+                    categorie: { connect: { id_categorie: id } },
+                  })),
+                },
+              }
+            : {}),
+
+          // Sans photo, ce bloc est simplement absent.
+          ...(photos.length
+            ? {
+                photos: {
+                  create: photos.map((f, index) => ({
+                    url: `${URL_PHOTOS}/${f.filename}`,
+                    nom_fichier: f.originalname.slice(0, 255),
+                    ordre: index,
+                    est_principale: index === 0,
+                  })),
+                },
+              }
+            : {}),
         },
-      },
-    });
+        include: {
+          photos: { orderBy: { ordre: 'asc' } },
+          categories: { include: { categorie: true } },
+        },
+      });
+    } catch (erreur) {
+      // Multer a déjà écrit les fichiers : on évite les orphelins.
+      await this.supprimerFichiers(fichiers);
+      throw erreur;
+    }
   }
 
   // 2. Lister les annonces actives avec filtres.
