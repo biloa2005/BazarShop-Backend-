@@ -74,5 +74,20 @@ export class FavorisService {
         })
     }
 //3. verifier si une annonce est dans les favoris
-
+async verifier (idUtilisateur:string,idAnnonce:string){
+    const favori=await this.prisma.favori.findUnique({
+        where:{
+            id_utilisateur_id_annonce:{
+                id_utilisateur:idUtilisateur,
+                id_annonce:idAnnonce
+            },
+        },
+        select:{
+            id_annonce:true,
+        }
+    })
+    return {
+        estfavori:favori !== null
+    };
+}
 }
