@@ -90,4 +90,18 @@ async verifier (idUtilisateur:string,idAnnonce:string){
         estfavori:favori !== null
     };
 }
+//4.retirer une annonce des favoris
+async retirer(idUtilisateur:string,idAnnonce:string){
+    const resultat=await this.prisma.favori.deleteMany({
+        where:{
+            id_utilisateur:idUtilisateur,
+            id_annonce:idAnnonce,
+        },
+    });
+    return {
+        message:resultat.count>0 ? "Annonce retirée des favoris."
+        : "Cette annonce ne figurait pas dans vos favoris.",
+        retire: resultat.count > 0,
+    }
+}
 }
