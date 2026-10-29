@@ -39,4 +39,40 @@ export class FavorisService {
         })
     }
     //2.consulter les favoris d'un users
+    async lister(idUtilisateur:string){
+        return
+        this.prisma.favori.findMany({
+            where:{
+                id_utilisateur:idUtilisateur,
+            },
+            orderBy:{
+                date_ajout:"desc"
+            },
+            include:{
+                annonce:{
+                    include:{
+                        proprietaire:{
+                            select:{
+                                id_utilisateur:true,
+                                nom:true,
+                                prenom:true
+                            }
+                        },
+                        photos:{
+                            orderBy:{
+                                ordre:"asc"
+                            },
+                        },
+                        categories:{
+                            include:{
+                                categorie:true,
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+//3. verifier si une annonce est dans les favoris
+
 }
