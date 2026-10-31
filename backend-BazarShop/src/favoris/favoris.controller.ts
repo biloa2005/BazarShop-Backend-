@@ -30,7 +30,7 @@ lister(@Req() req:RequeteAuthentifiee){
 //verifier si une annonce est dans les favoris
 
 @Get(":idAnnonce/verifier")
-verifier(@Param('idAnnonce') idAnnonce:string, @Req req:RequeteAuthentifiee){
+verifier(@Param('idAnnonce') idAnnonce:string, @Req() req:RequeteAuthentifiee){
     return this.favorisService.verifier(
         req.user.id,
         idAnnonce,
