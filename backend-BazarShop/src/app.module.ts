@@ -8,11 +8,13 @@ import { AuthModule } from './auth/auth.module.js';
 import { AnnoncesModule } from './annonces/annonces.module.js';
 import { FavorisController } from './favoris/favoris.controller.js';
 import { FavorisModule } from './favoris/favoris.module.js';
+import { AvisController } from './avis/avis.controller.js';
+import { AvisModule } from './avis/avis.module.js';
 
 
 @Module({
-  imports: [UtilisateursModule,PrismaModule, AuthModule, AnnoncesModule, FavorisModule],
-  controllers: [AppController, FavorisController],
+  imports: [UtilisateursModule,PrismaModule, AuthModule, AnnoncesModule, FavorisModule, AvisModule],
+  controllers: [AppController, FavorisController, AvisController],
   providers: [AppService,],
 })
 export class AppModule {}
