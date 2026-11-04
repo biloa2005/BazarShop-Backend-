@@ -10,11 +10,14 @@ import { FavorisController } from './favoris/favoris.controller.js';
 import { FavorisModule } from './favoris/favoris.module.js';
 import { AvisController } from './avis/avis.controller.js';
 import { AvisModule } from './avis/avis.module.js';
+import { MessagerieService } from './messagerie/messagerie.service.js';
+import { MessagerieController } from './messagerie/messagerie.controller.js';
+import { MessagerieModule } from './messagerie/messagerie.module.js';
 
 
 @Module({
-  imports: [UtilisateursModule,PrismaModule, AuthModule, AnnoncesModule, FavorisModule, AvisModule],
-  controllers: [AppController, FavorisController, AvisController],
-  providers: [AppService,],
+  imports: [UtilisateursModule,PrismaModule, AuthModule, AnnoncesModule, FavorisModule, AvisModule, MessagerieModule],
+  controllers: [AppController, FavorisController, AvisController, MessagerieController],
+  providers: [AppService, MessagerieService,],
 })
 export class AppModule {}
