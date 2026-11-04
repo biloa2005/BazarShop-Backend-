@@ -265,6 +265,9 @@ model Avis {
   auteur       Utilisateur @relation("AvisAuteur", fields: [id_auteur], references: [id_utilisateur], onDelete: Restrict)
   destinataire Utilisateur @relation("AvisDestinataire", fields: [id_destinataire], references: [id_utilisateur], onDelete: Restrict)
 
+  // Un seul avis par auteur et destinataire.
+  @@unique([id_auteur, id_destinataire])
+
   @@index([id_destinataire, date_creation])
   @@index([id_auteur])
   @@map("Avis")

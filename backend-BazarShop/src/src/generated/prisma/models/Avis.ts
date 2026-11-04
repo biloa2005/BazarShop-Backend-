@@ -246,6 +246,7 @@ export type AvisOrderByWithRelationInput = {
 
 export type AvisWhereUniqueInput = Prisma.AtLeast<{
   id_avis?: number
+  id_auteur_id_destinataire?: Prisma.AvisId_auteurId_destinataireCompoundUniqueInput
   AND?: Prisma.AvisWhereInput | Prisma.AvisWhereInput[]
   OR?: Prisma.AvisWhereInput[]
   NOT?: Prisma.AvisWhereInput | Prisma.AvisWhereInput[]
@@ -256,7 +257,7 @@ export type AvisWhereUniqueInput = Prisma.AtLeast<{
   id_destinataire?: Prisma.StringFilter<"Avis"> | string
   auteur?: Prisma.XOR<Prisma.UtilisateurScalarRelationFilter, Prisma.UtilisateurWhereInput>
   destinataire?: Prisma.XOR<Prisma.UtilisateurScalarRelationFilter, Prisma.UtilisateurWhereInput>
-}, "id_avis">
+}, "id_avis" | "id_auteur_id_destinataire">
 
 export type AvisOrderByWithAggregationInput = {
   id_avis?: Prisma.SortOrder
@@ -356,6 +357,11 @@ export type AvisOrderByRelevanceInput = {
   fields: Prisma.AvisOrderByRelevanceFieldEnum | Prisma.AvisOrderByRelevanceFieldEnum[]
   sort: Prisma.SortOrder
   search: string
+}
+
+export type AvisId_auteurId_destinataireCompoundUniqueInput = {
+  id_auteur: string
+  id_destinataire: string
 }
 
 export type AvisCountOrderByAggregateInput = {
