@@ -20,6 +20,26 @@ describe('AnnoncesService',()=>{
     },
     $transaction:jest.fn()
   };
-  const idUtilisateur:'user-123',
+  const idUtilisateur='user-123',
   const idAnnonce='annonce-123'
+  const dtoCreation={
+    titre:"Samsung galaxy S24",
+    description:'telephone en tres bonne etat..',
+    prix:350000,
+    localication:'douala, cameroun',
+    type:'VENTE',
+    categorie:[1]
+  };
+  const annonceExistante={
+    idAnnonce:idAnnonce,
+    titre:'ancien titre',
+    description:'ancienne description',
+    prix:200000,
+    localisation:'douala',
+    type:'VENTE',
+    statut:'ACTIVE',
+    id_utilisateur:idUtilisateur
+
+  };
+  beforeEach(async()=>{})
 })
