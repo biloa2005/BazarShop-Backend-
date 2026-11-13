@@ -13,10 +13,11 @@ import { AvisModule } from './avis/avis.module.js';
 import { MessagerieService } from './messagerie/messagerie.service.js';
 import { MessagerieController } from './messagerie/messagerie.controller.js';
 import { MessagerieModule } from './messagerie/messagerie.module.js';
+import { CategoriesModule } from './categories/categories.module.js';
 
 
 @Module({
-  imports: [UtilisateursModule,PrismaModule, AuthModule, AnnoncesModule, FavorisModule, AvisModule, MessagerieModule],
+  imports: [UtilisateursModule,PrismaModule, AuthModule, AnnoncesModule, FavorisModule, AvisModule, MessagerieModule, CategoriesModule],
   controllers: [AppController, FavorisController, AvisController, MessagerieController],
   providers: [AppService, MessagerieService,],
 })
