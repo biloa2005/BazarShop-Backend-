@@ -83,6 +83,7 @@ model Utilisateur {
 
   propositionsEnvoyees  PropositionTroc[] @relation("PropositionEmetteur")
   propositionsRecues    PropositionTroc[] @relation("PropositionReceveur")
+  reinitialisationsMotDePasse ReinitialisationMotDePasse[]
 
   @@map("Utilisateur")
 }
@@ -330,4 +331,21 @@ enum StatutPropositionTroc {
   REFUSEE
   ANNULEE
 }
+
+model ReinitialisationMotDePasse {
+  id               String    @id @default(uuid()) @db.VarChar(36)
+  token_hash       String    @unique @db.VarChar(64)
+  date_creation    DateTime  @default(now()) @db.DateTime(0)
+  date_expiration  DateTime  @db.DateTime(0)
+  date_utilisation DateTime? @db.DateTime(0)
+
+  id_utilisateur String @db.VarChar(36)
+
+  utilisateur Utilisateur @relation(fields: [id_utilisateur], references: [id_utilisateur], onDelete: Cascade)
+
+  @@index([id_utilisateur])
+  @@index([date_expiration])
+  @@map("ReinitialisationMotDePasse")
+}
+
 
