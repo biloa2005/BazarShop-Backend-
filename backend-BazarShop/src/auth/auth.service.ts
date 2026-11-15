@@ -4,6 +4,8 @@ import {
   ConflictException,
   UnauthorizedException,
   ForbiddenException,
+  InternalServerErrorException,
+  BadRequestException,
 } from '@nestjs/common';
 import { createHash, randomBytes } from 'node:crypto';
 import { Resend } from 'resend';
