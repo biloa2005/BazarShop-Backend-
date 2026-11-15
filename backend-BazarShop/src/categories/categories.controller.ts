@@ -8,9 +8,9 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
-import { CategoriesService } from './categories.service';
-import { CreateCategorieDto } from './dto/create-categorie.dto';
-import { UpdateCategorieDto } from './dto/update-categorie.dto';
+import { CategoriesService } from './categories.service.js';
+import { CreateCategorieDto } from './dto/create-categorie.dto.js';
+import { UpdateCategorieDto } from './dto/update-categorie.dto.js';
 
 @Controller('categories')
 export class CategoriesController {
